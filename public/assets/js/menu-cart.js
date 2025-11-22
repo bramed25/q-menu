@@ -17,17 +17,6 @@ function addToCart(id, name, price, image) {
     }
     
     updateCartUI();
-
-    // Feedback visual
-    var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('cartSidebar'));
-    bsOffcanvas.show();
-    
-    // Opcional: Abrir el carrito automáticamente al agregar
-    // var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('cartSidebar'));
-    // bsOffcanvas.show();
-    
-    // Feedback visual simple (Toast o alerta)
-    // alert("Agregado: " + name); 
 }
 
 // 2. Eliminar o restar producto
@@ -78,7 +67,7 @@ function updateCartUI() {
                 <div class="d-flex align-items-center bg-light rounded-pill border px-1">
                     <button class="btn btn-sm text-danger p-1" onclick="removeFromCart('${item.name}')"><i class="bi bi-dash-lg"></i></button>
                     <span class="mx-2 fw-bold small">${item.quantity}</span>
-                    <button class="btn btn-sm text-success p-1" onclick="addToCart('${item.name}', ${item.price}, '${item.image}')"><i class="bi bi-plus-lg"></i></button>
+                    <button class="btn btn-sm text-success p-1" onclick="addToCart(${item.id}, '${item.name}', ${item.price}, '${item.image}')"><i class="bi bi-plus-lg"></i></button>
                 </div>
             </div>`;
             container.innerHTML += itemHTML;
@@ -92,8 +81,7 @@ function updateCartUI() {
     if(floatingTotal) floatingTotal.innerText = `${count} ítems • $${total.toFixed(2)}`;
 }
 
-// 4. Simular Envío a Cocina
-// 4. Enviar Orden Real a Laravel
+/// 4. Enviar Orden Real a Laravel
 function sendOrder() {
     if(cart.length === 0) {
         alert("¡Tu carrito está vacío!");
@@ -101,27 +89,34 @@ function sendOrder() {
     }
     
     const note = document.getElementById('kitchenNotes').value;
-    // Obtener la mesa seleccionada del select (si no existe, usa "1")
     const mesaSelect = document.querySelector('select.form-select');
     const mesa = mesaSelect ? mesaSelect.value : "1";
     
-    // Calcular total limpio
+    // Limpiar el precio (quitar el signo $)
     const totalText = document.getElementById('cart-total').innerText.replace('$', '');
     const total = parseFloat(totalText);
 
-    // Preparar datos para la API
+    // --- AQUÍ ESTÁ LA MAGIA (TRADUCCIÓN) ---
+    // Convertimos el carrito de JS (inglés) al formato de BD (español)
+    const detallesFormateados = cart.map(item => {
+        return {
+            id: item.id,          // Laravel espera 'platillo_id', pero en el controller lo mapeamos como 'id'
+            cantidad: item.quantity, // Traducimos quantity -> cantidad
+            precio: item.price,      // Traducimos price -> precio
+            notas: ""                // Notas individuales (vacío por ahora)
+        };
+    });
+
     const orderData = {
         mesa: "Mesa " + mesa,
         total: total,
         nota_general: note,
-        detalles: cart // Enviamos el array del carrito directo
+        detalles: detallesFormateados // Enviamos la lista traducida
     };
 
-    // Confirmación
     if(!confirm(`¿Confirmar pedido para Mesa ${mesa} por $${total}?`)) return;
 
-    // Petición AJAX (Fetch)
-    fetch('/api/ordenar', {
+    fetch('apiOrderUrl', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -129,22 +124,29 @@ function sendOrder() {
         },
         body: JSON.stringify(orderData)
     })
-    .then(response => response.json())
+    .then(response => {
+        // Si la respuesta no es OK (ej. error 500), lanzamos error manual para ver el mensaje
+        if (!response.ok) {
+            return response.json().then(err => { throw err; });
+        }
+        return response.json();
+    })
     .then(data => {
         if(data.success) {
             alert("✅ ¡Orden Recibida en Cocina! ID: #" + data.orden_id);
-            // Limpiar todo
             cart = [];
             document.getElementById('kitchenNotes').value = "";
             updateCartUI();
             var bsOffcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('cartSidebar'));
             bsOffcanvas.hide();
         } else {
-            alert("❌ Error: " + (data.message || "No se pudo procesar"));
+            alert("⚠️ El servidor respondió: " + (data.message || "Error desconocido"));
         }
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert("❌ Error de conexión con el servidor");
+        console.error('Detalles del error:', error);
+        // Mostramos el mensaje real del servidor si existe (útil para depurar)
+        let mensaje = error.message || "Error de conexión con el servidor";
+        alert("❌ Ocurrió un error: " + mensaje);
     });
 }

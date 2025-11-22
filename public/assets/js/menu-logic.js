@@ -17,34 +17,38 @@ document.addEventListener('DOMContentLoaded', function() {
             if(menuContainer) menuContainer.innerHTML = '<p class="text-center text-danger">Error al cargar menú.</p>';
         });
 
-    // 2. Renderizar
+    // 2. FUNCIÓN PARA DIBUJAR EL HTML (Versión Curada: Idéntica a Q-Menu-v1)
     function renderMenu(platillos) {
         if(loadingSpinner) loadingSpinner.remove();
         if(menuContainer) menuContainer.innerHTML = '';
 
         platillos.forEach(item => {
+            // HTML LIMPIO: Sin estilos en línea, confiando 100% en dashboard.css
             const cardHtml = `
             <div class="col platillo-item" data-category="${item.categoria}">
-                <div class="card food-card h-100 shadow-sm">
-                    <div class="food-img-wrap" style="height: 200px; overflow: hidden;">
-                        <img src="${item.imagen}" alt="${item.nombre}" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
+                <div class="card food-card">
+                    <div class="food-img-wrap">
+                        <img src="${item.imagen}" alt="${item.nombre}">
+                        </div>
                     <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between mb-2">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
                             <h5 class="card-title fw-bold mb-0">${item.nombre}</h5>
                             <h5 class="text-primary fw-bold mb-0">$${item.precio}</h5>
                         </div>
                         <p class="card-text small text-muted flex-grow-1">${item.descripcion || ''}</p>
                         <div class="d-flex justify-content-between align-items-center mt-3">
-                            <button class="btn btn-sm btn-light rounded-circle btn-tts"><i class="bi bi-volume-up"></i></button>
-                            <button class="btn btn-primary btn-add rounded-circle" style="width:40px;height:40px;background-color:var(--accent-color);border:none;"
+                            <button class="btn btn-sm btn-light text-muted rounded-circle btn-tts" title="Leer descripción">
+                                <i class="bi bi-volume-up"></i>
+                            </button>
+                            <button class="btn btn-primary btn-add" style="background-color: var(--accent-color); border:none;"
                                 onclick="addToCart(${item.id}, '${item.nombre}', ${item.precio}, '${item.imagen}')">
-                                <i class="bi bi-plus text-white"></i>
+                                <i class="bi bi-plus"></i>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>`;
+            
             if(menuContainer) menuContainer.innerHTML += cardHtml;
         });
         
