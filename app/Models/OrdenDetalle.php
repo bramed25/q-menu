@@ -10,7 +10,8 @@ class OrdenDetalle extends Model
     use HasFactory;
     protected $fillable = ['orden_id', 'platillo_id', 'cantidad', 'precio', 'notas'];
     
-    public function platillo() {
+    public function platillo()
+    {
         return $this->belongsTo(Platillo::class);
     }
 }

@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     use HasFactory;
+    // Permitimos llenar estos campos
     protected $fillable = ['nombre', 'icono', 'activo'];
 }

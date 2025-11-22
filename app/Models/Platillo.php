@@ -10,8 +10,9 @@ class Platillo extends Model
     use HasFactory;
     protected $fillable = ['nombre', 'precio', 'descripcion', 'imagen', 'categoria_id', 'activo'];
 
-    // Relación: Un platillo pertenece a una Categoría
-    public function categoria() {
+    // Relación: Un platillo pertenece a una categoría
+    public function categoria()
+    {
         return $this->belongsTo(Categoria::class);
     }
 }
