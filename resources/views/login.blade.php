@@ -138,6 +138,14 @@
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
 
+  <script>
+      window.AuthConfig = {
+          apiLogin: "{{ url('/api/login') }}",    // Ruta de la API
+          urlAdmin: "{{ url('/admin') }}",        // Redirección para Gerente
+          urlStaff: "{{ url('/staff') }}"         // Redirección para Cocina
+      };
+  </script>
+
   <!-- Validación de formularios -->
   <script src="{{ asset('assets/js/auth.js') }}"></script>
 

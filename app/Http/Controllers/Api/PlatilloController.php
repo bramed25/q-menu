@@ -24,6 +24,12 @@ class PlatilloController extends Controller
     // 2. CREAR PLATILLO (POST /api/platillos)
     public function store(StorePlatilloRequest $request)
     {
+        // 1. Verificar política de seguridad
+        // Si no es admin, Laravel detiene todo y lanza error 403
+        if ($request->user()->cannot('create', Platillo::class)) {
+            abort(403, 'No tienes permiso para crear platillos. Solo Gerentes.');
+        }
+        
         // Si llega aquí, es que ya pasó la validación del Request
         $platillo = Platillo::create($request->validated());
 
