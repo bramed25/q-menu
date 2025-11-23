@@ -110,38 +110,11 @@
                   <th scope="col" class="text-end">Acciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id='tabla-platillos'>
                 <tr>
-                  <td><img src="{{ asset('assets/img/portfolio/product-1.jpg') }}" class="rounded" width="50" alt=""></td>
-                  <td class="fw-bold">Hamburguesa Clásica</td>
-                  <td>Plato Fuerte</td>
-                  <td>$120.00</td>
-                  <td><span class="badge bg-success">Activo</span></td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><img src="{{ asset('assets/img/portfolio/product-2.jpg') }}" class="rounded" width="50" alt=""></td>
-                  <td class="fw-bold">Tacos al Pastor (Orden)</td>
-                  <td>Plato Fuerte</td>
-                  <td>$85.00</td>
-                  <td><span class="badge bg-success">Activo</span></td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><img src="{{ asset('assets/img/portfolio/product-3.jpg') }}" class="rounded" width="50" alt=""></td>
-                  <td class="fw-bold">Malteada de Fresa</td>
-                  <td>Bebidas</td>
-                  <td>$60.00</td>
-                  <td><span class="badge bg-warning text-dark">Agotado</span></td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                  <td colspan="6" class="text-center text-muted py-4">
+                    <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
+                      Cargando menú...
                   </td>
                 </tr>
               </tbody>
@@ -152,6 +125,80 @@
       </main>
     </div>
   </div>
+
+  <div class="modal fade" id="modalPlatillo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="modalTitle">Gestión de Platillo</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formPlatillo">
+            <input type="hidden" id="platilloId">
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Nombre del Platillo</label>
+              <input type="text" class="form-control" id="inputNombre" required>
+            </div>
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label class="form-label fw-bold">Precio</label>
+                    <input type="number" class="form-control" id="inputPrecio" step="0.01" required>
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="form-label fw-bold">Categoría</label>
+                    <select class="form-select" id="inputCategoria" required>
+                        <option value="1">🍽️ Platos Fuertes</option>
+                        <option value="2">🥤 Bebidas</option>
+                        <option value="3">🍰 Postres</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Descripción</label>
+              <textarea class="form-control" id="inputDescripcion" rows="2"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">URL de Imagen</label>
+              <input type="text" class="form-control" id="inputImagen" placeholder="assets/img/portfolio/..." value="assets/img/portfolio/product-1.jpg">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/js/main.js') }}"></script>
+  
+  <script>
+    // Puente de datos Laravel -> JS
+    window.AdminConfig = {
+        apiMenu: "{{ url('/api/menu') }}",          // Para llenar la tabla
+        apiPlatillos: "{{ url('/api/platillos') }}", // Para guardar/borrar
+        token: localStorage.getItem('auth_token')    // Seguridad
+    };
+  </script>
+
+  <script src="{{ asset('assets/js/admin-logic.js') }}"></script>
+</body>
+</html>
+
+  <script>
+    window.AdminConfig = {
+        apiMenu: "{{ url('/api/menu') }}",          // Para leer (GET)
+        apiPlatillos: "{{ url('/api/platillos') }}", // Para crear/borrar (POST/DELETE)
+        token: localStorage.getItem('auth_token')    // Recuperamos el token del login
+    };
+  </script>
 
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/js/main.js') }}"></script>

@@ -38,9 +38,18 @@ Route::middleware('auth:sanctum')->group(function () {
     // Cerrar Sesión (Romper el boleto)
     Route::post('/logout', [LoginController::class, 'logout']);
 
-    // Gestión del Menú (Solo para el Gerente)
+    // --- CRUD COMPLETO DE PLATILLOS ---
+    
+    // 1. Crear (Ya lo tenías)
     Route::post('/platillos', [PlatilloController::class, 'store']);
-    Route::put('/platillos/{id}', [PlatilloController::class, 'update']);
+    
+    // 2. Ver UNO solo (FALTABA ESTE - Para llenar el modal de editar)
+    Route::get('/platillos/{id}', [PlatilloController::class, 'show']); 
+    
+    // 3. Actualizar (FALTABA ESTE - Para guardar la edición)
+    Route::put('/platillos/{id}', [PlatilloController::class, 'update']); 
+    
+    // 4. Borrar (Ya lo tenías)
     Route::delete('/platillos/{id}', [PlatilloController::class, 'destroy']);
     
     // Aquí agregaríamos rutas para ver las órdenes en el dashboard...

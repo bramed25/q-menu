@@ -50,11 +50,25 @@ class PlatilloController extends Controller
     public function destroy($id)
     {
         $platillo = Platillo::findOrFail($id);
-        // No lo borramos de verdad, solo lo desactivamos para no romper el historial de ventas
-        $platillo->activo = false;
-        $platillo->save();
 
-        return response()->json(['message' => 'Platillo eliminado del menú']);
+        try {
+            // INTENTO 1: Borrado Físico (Eliminar de la BD)
+            $platillo->delete();
+            $mensaje = 'Platillo eliminado permanentemente de la base de datos.';
+            
+        } catch (\Illuminate\Database\QueryException $e) {
+            // INTENTO 2: Si falla (porque hay órdenes vinculadas), hacemos Borrado Lógico
+            // Error 1451 = Foreign Key Constraint
+            if ($e->getCode() == "23000") {
+                $platillo->activo = false;
+                $platillo->save();
+                $mensaje = 'El platillo tiene ventas asociadas. Se ha desactivado en lugar de borrarse.';
+            } else {
+                throw $e; // Si es otro error, que truene
+            }
+        }
+
+        return response()->json(['message' => $mensaje]);
     }
     // 5. ACTUALIZAR (PUT /api/platillos/{id})
     public function update(UpdatePlatilloRequest $request, $id)
