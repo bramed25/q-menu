@@ -112,13 +112,12 @@
 
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/js/main.js') }}"></script>
-  <script src="{{ asset('assets/js/menu-cart.js') }}"></script>
   
   <script>
       const apiUrl = "{{ url('/api/menu') }}";       // Para ver las hamburguesas
-      const apiOrderUrl = "{{ url('/api/ordenar') }}"; // <--- NUEVA: Para enviar el pedido
+      // const apiOrderUrl = "{{ url('/api/ordenar') }}"; // <--- NUEVA: Para enviar el pedido
   </script>
-
+  <script src="{{ asset('assets/js/menu-cart.js') }}"></script>
   <script src="{{ asset('assets/js/menu-logic.js') }}"></script>
 </body>
 </html>

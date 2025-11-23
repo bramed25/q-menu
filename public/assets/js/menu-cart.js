@@ -116,7 +116,7 @@ function sendOrder() {
 
     if(!confirm(`¿Confirmar pedido para Mesa ${mesa} por $${total}?`)) return;
 
-    fetch('apiOrderUrl', {
+    fetch('http://laravel.test/q-menu/public/api/ordenar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

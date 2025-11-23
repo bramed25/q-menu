@@ -7,6 +7,7 @@ use App\Models\Platillo;
 use App\Http\Resources\PlatilloResource;
 use App\Http\Requests\StorePlatilloRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdatePlatilloRequest;
 
 class PlatilloController extends Controller
 {
@@ -48,5 +49,18 @@ class PlatilloController extends Controller
         $platillo->save();
 
         return response()->json(['message' => 'Platillo eliminado del menú']);
+    }
+    // 5. ACTUALIZAR (PUT /api/platillos/{id})
+    public function update(UpdatePlatilloRequest $request, $id)
+    {
+        $platillo = Platillo::findOrFail($id);
+        
+        // Actualizamos solo los campos que enviaron
+        $platillo->update($request->validated());
+
+        return response()->json([
+            'message' => 'Platillo actualizado correctamente',
+            'data' => new PlatilloResource($platillo)
+        ]);
     }
 }
