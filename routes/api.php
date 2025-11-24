@@ -51,6 +51,8 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // 4. Borrar (Ya lo tenías)
     Route::delete('/platillos/{id}', [PlatilloController::class, 'destroy']);
-    
-    // Aquí agregaríamos rutas para ver las órdenes en el dashboard...
+
+    // Ruta KDS: Ver órdenes pendientes y cambiar estatus
+    Route::get('/kds/ordenes', [OrdenController::class, 'index']);
+    Route::patch('/kds/ordenes/{id}', [OrdenController::class, 'updateStatus']);
 });

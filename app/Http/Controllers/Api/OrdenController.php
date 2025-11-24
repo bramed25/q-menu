@@ -59,4 +59,32 @@ class OrdenController extends Controller
             ], 500);
         }
     }
+    // 1. VER PEDIDOS PENDIENTES (Para el KDS)
+    public function index()
+    {
+        // Traer órdenes que NO estén 'entregado'
+        // Incluir los detalles (platillos) y ordenarlas por antigüedad (las viejas primero)
+        $ordenes = Orden::with('detalles.platillo')
+            ->whereIn('estatus', ['pendiente', 'preparando', 'listo'])
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return response()->json(['data' => $ordenes]);
+    }
+
+    // 2. CAMBIAR ESTATUS (Cocinar -> Listo -> Entregado)
+    public function updateStatus(Request $request, $id)
+    {
+        $orden = Orden::findOrFail($id);
+        
+        // Validar que envíen un estatus válido
+        $request->validate([
+            'estatus' => 'required|in:pendiente,preparando,listo,entregado'
+        ]);
+
+        $orden->estatus = $request->estatus;
+        $orden->save();
+
+        return response()->json(['message' => 'Estatus actualizado']);
+    }
 }
