@@ -12,8 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+
+        // CONFIGURACIÓN CSRF
+        $middleware->validateCsrfTokens(except: [
+            'api/*',               // Permite que Postman/Swagger entren a la API
+            'sanctum/csrf-cookie'  // Necesario para el login inicial en algunos casos
+        ]);
     })
+    
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
