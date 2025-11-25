@@ -7,25 +7,40 @@ use App\Models\Categoria;
 use App\Models\Platillo;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;       // Actualizar
+use Spatie\Permission\Models\Permission; // Actualizar
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. CREAR USUARIOS (Para Login)
-        User::create([
+       // 1. CREAR ROLES (SPATIE)
+        $roleAdmin = Role::create(['name' => 'admin']);
+        $roleStaff = Role::create(['name' => 'staff']);
+
+        // 2. CREAR PERMISOS (Opcional pero recomendado por la rúbrica)
+        Permission::create(['name' => 'gestionar menu']);
+        Permission::create(['name' => 'ver kds']);
+
+        // Asignar permisos a roles
+        $roleAdmin->givePermissionTo(['gestionar menu', 'ver kds']);
+        $roleStaff->givePermissionTo(['ver kds']);
+
+
+        // 3. CREAR USUARIOS Y ASIGNAR ROL
+        $admin = User::create([
             'name' => 'Gerente General',
             'email' => 'admin@kds.com',
-            'password' => Hash::make('admin123'), // Password encriptado
-            'role' => 'admin',
+            'password' => Hash::make('admin123'),
         ]);
+        $admin->assignRole($roleAdmin); // < ASIGNACIÓN SPATIE
 
-        User::create([
+        $cocina = User::create([
             'name' => 'Jefe de Cocina',
             'email' => 'cocina@kds.com',
             'password' => Hash::make('cocina123'),
-            'role' => 'staff',
         ]);
+        $cocina->assignRole($roleStaff); // < ASIGNACIÓN SPATIE
 
         // 2. CREAR CATEGORÍAS
         $catPlatos = Categoria::create(['nombre' => 'Platos Fuertes', 'icono' => 'bi-egg-fried']);

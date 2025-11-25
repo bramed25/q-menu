@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens; // <--- CLAVE 1: Importar la librería
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles; //Spatie
 
 class User extends Authenticatable
 {
-    // CLAVE 2: Agregar el Trait 'HasApiTokens' dentro de la clase
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role', // <--- CLAVE 3: Que permita guardar el rol
+        //'role', 
     ];
 
     protected $hidden = [

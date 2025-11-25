@@ -34,6 +34,7 @@ class LoginController extends Controller
         // 4. ¡Éxito! Generamos el Token (El Boleto)
         // 'auth_token' es el nombre interno que le damos al boleto
         $token = $user->createToken('auth_token')->plainTextToken;
+        $rol = $user->getRoleNames()->first();
 
         // 5. Devolvemos el Token y el Rol al cliente
         return response()->json([
@@ -41,7 +42,7 @@ class LoginController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
             'user_id' => $user->id,
-            'role' => $user->role, // <--- VITAL: Para saber si mandarlo a Admin o Staff
+            'role' => $rol, // Para saber si mandarlo a Admin o Staff
         ], 200);
     }
 

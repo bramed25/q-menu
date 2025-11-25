@@ -23,18 +23,18 @@ class PlatilloPolicy
     // ¿Quién puede crear platillos nuevos? SOLO EL ADMIN
     public function create(User $user): bool
     {
-        return $user->role === 'admin';
+        return $user->hasRole('admin');
     }
 
     // ¿Quién puede editar? SOLO EL ADMIN
     public function update(User $user, Platillo $platillo): bool
     {
-        return $user->role === 'admin';
+        return $user->hasRole('admin');
     }
 
     // ¿Quién puede borrar? SOLO EL ADMIN
     public function delete(User $user, Platillo $platillo): bool
     {
-        return $user->role === 'admin';
+        return $user->hasRole('admin');
     }
 }
