@@ -40,7 +40,7 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="{{ url('/#hero') }}" class="active">Home</a></li>
+          <li><a href="{{ url('/#hero') }}" class="active">Inicio</a></li>
           <li><a href="{{ url('/#about') }}">Sobre nosotros</a></li>
           <li><a href="{{ url('/#services') }}">Funcionalidades</a></li>
           <li><a href="{{ url('/#team') }}">Equipo</a></li>
@@ -185,7 +185,7 @@
 
           <div class="col-xl-4 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="member">
-              <img src="{{ asset('assets/img/team/team-1.jpg') }}" class="img-fluid" alt="">
+              <img src="{{ asset('assets/img/team/team-1.png') }}" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
                   <h4>Brandon Medina</h4>
@@ -203,7 +203,7 @@
 
           <div class="col-xl-4 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="member">
-              <img src="{{ asset('assets/img/team/team-2.jpg') }}" class="img-fluid" alt="">
+              <img src="{{ asset('assets/img/team/team-2.png') }}" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
                   <h4>Valentina Arroyo</h4>
@@ -221,7 +221,7 @@
 
           <div class="col-xl-4 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div class="member">
-              <img src="{{ asset('assets/img/team/team-3.jpg') }}" class="img-fluid" alt="">
+              <img src="{{ asset('assets/img/team/team-3.png') }}" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
                   <h4>Eliam García</h4>
@@ -279,7 +279,7 @@
                 <i class="bi bi-envelope flex-shrink-0"></i>
                 <div>
                   <h3>Correo Electrónico</h3>
-                  <p>q-menu@gmail.com</p>
+                  <p>s22030154@itsch.edu.mx</p>
                 </div>
               </div>
 
@@ -343,7 +343,7 @@
             <p>Av. Ing. Carlos Rojas Gutierrez 2120, Fracc. Valle De La Herradura</p>
             <p>61100 Cdad. Hidalgo, Mich.</p>
             <p class="mt-3"><strong>Teléfono:</strong> <span>+52 786 121 8294</span></p>
-            <p><strong>Correo Electrónico:</strong> <span>q-menu@gmail.com</span></p>
+            <p><strong>Correo Electrónico:</strong> <span>s22030154@itsch.edu.mx</span></p>
           </div>
         </div>
 
