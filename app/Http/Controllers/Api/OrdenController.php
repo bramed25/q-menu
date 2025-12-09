@@ -87,4 +87,13 @@ class OrdenController extends Controller
 
         return response()->json(['message' => 'Estatus actualizado']);
     }
+
+    public function show(){
+        $ordenes = Orden::with('detalles.platillo')
+            ->whereIn('estatus', ['pendiente', 'preparando', 'listo'])
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return response()->json(['data' => $ordenes]);
+    }
 }
