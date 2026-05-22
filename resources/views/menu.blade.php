@@ -115,7 +115,7 @@
   
   <script>
       const apiUrl = "{{ url('/api/menu') }}";       // Para ver las hamburguesas
-      // const apiOrderUrl = "{{ url('/api/ordenar') }}"; // <--- NUEVA: Para enviar el pedido
+      const apiOrderUrl = "{{ url('/api/ordenar') }}"; // <--- NUEVA: Para enviar el pedido
   </script>
   <script src="{{ asset('assets/js/menu-cart.js') }}"></script>
   <script src="{{ asset('assets/js/menu-logic.js') }}"></script>
